@@ -8,11 +8,21 @@
     <title>e-commerce</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
 
+        <style>html {
+            scroll-behavior: smooth;
+        }
+    </style>
 
 </head>
 
-<body class="bg-slate-800 ">
+<body class="bg-cornsilk-800">
     @include('navbar.navbar')
     @yield('container')
     <script>

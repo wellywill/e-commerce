@@ -12,3 +12,118 @@
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 }
+@theme {
+    --color-hijaumuda-100: #abc4ab;
+    --color-coklatmuda-100: #a39171;
+    --color-cream-100: #dcc9b6;
+    --color-hijautua: #727d71;
+    --color-coklattua: #6d4c3d;
+
+    /* Tea Green */
+    --color-tea_green-default: #ccd5ae;
+    --color-tea_green-100: #2d331a;
+    --color-tea_green-200: #5b6635;
+    --color-tea_green-300: #88994f;
+    --color-tea_green-400: #acbb7b;
+    --color-tea_green-500: #ccd5ae;
+    --color-tea_green-600: #d6debe;
+    --color-tea_green-700: #e1e6cf;
+    --color-tea_green-800: #ebeedf;
+    --color-tea_green-900: #f5f7ef;
+
+    /* Beige */
+    --color-beige-default: #e9edc9;
+    --color-beige-100: #3d4216;
+    --color-beige-200: #79842c;
+    --color-beige-300: #b3c146;
+    --color-beige-400: #ced788;
+    --color-beige-500: #e9edc9;
+    --color-beige-600: #edf1d4;
+    --color-beige-700: #f2f4df;
+    --color-beige-800: #f6f8ea;
+    --color-beige-900: #fbfbf4;
+
+    /* Cornsilk */
+    --color-cornsilk-default: #fefae0;
+    --color-cornsilk-100: #5d5103;
+    --color-cornsilk-200: #baa206;
+    --color-cornsilk-300: #f8dc27;
+    --color-cornsilk-400: #fbeb84;
+    --color-cornsilk-500: #fefae0;
+    --color-cornsilk-600: #fefbe7;
+    --color-cornsilk-700: #fefced;
+    --color-cornsilk-800: #fffdf3;
+    --color-cornsilk-900: #fffef9;
+
+    /* Papaya Whip */
+    --color-papaya_whip-default: #faedcd;
+    --color-papaya_whip-100: #533e08;
+    --color-papaya_whip-200: #a57b10;
+    --color-papaya_whip-300: #eab227;
+    --color-papaya_whip-400: #f2d079;
+    --color-papaya_whip-500: #faedcd;
+    --color-papaya_whip-600: #fbf1d6;
+    --color-papaya_whip-700: #fcf4e0;
+    --color-papaya_whip-800: #fdf8eb;
+    --color-papaya_whip-900: #fefbf5;
+
+    /* Buff */
+    --color-buff-default: #d4a373;
+    --color-buff-100: #32210f;
+    --color-buff-200: #64411f;
+    --color-buff-300: #96622e;
+    --color-buff-400: #c58341;
+    --color-buff-500: #d4a373;
+    --color-buff-600: #dcb68f;
+    --color-buff-700: #e5c8ab;
+    --color-buff-800: #eedac7;
+    --color-buff-900: #f6ede3;
+
+    /* dark_moss_green */
+    --color-dark_moss_green-default: #606c38;
+    --color-dark_moss_green-100: #13160b;
+    --color-dark_moss_green-200: #262b16;
+    --color-dark_moss_green-300: #394121;
+    --color-dark_moss_green-400: #4c562c;
+    --color-dark_moss_green-500: #606c38;
+    --color-dark_moss_green-600: #88994f;
+    --color-dark_moss_green-700: #a9b876;
+    --color-dark_moss_green-800: #c5d0a3;
+    --color-dark_moss_green-900: #e2e7d1;
+
+    /* pakistan_green */
+    --color-pakistan_green-default: #283618;
+    --color-pakistan_green-100: #080b05;
+    --color-pakistan_green-200: #101509;
+    --color-pakistan_green-300: #18200e;
+    --color-pakistan_green-400: #1f2a13;
+    --color-pakistan_green-500: #283618;
+    --color-pakistan_green-600: #547133;
+    --color-pakistan_green-700: #80ac4d;
+    --color-pakistan_green-800: #aac987;
+    --color-pakistan_green-900: #d5e4c3;
+
+    /* earth_yellow */
+    --color-earth_yellow-default: #dda15e;
+    --color-earth_yellow-100: #34210b;
+    --color-earth_yellow-200: #684216;
+    --color-earth_yellow-300: #9d6321;
+    --color-earth_yellow-400: #d1842c;
+    --color-earth_yellow-500: #dda15e;
+    --color-earth_yellow-600: #e4b57f;
+    --color-earth_yellow-700: #ebc79f;
+    --color-earth_yellow-800: #f1dabf;
+    --color-earth_yellow-900: #f8ecdf;
+
+    /* tiger’s_eye */
+    --color-tigers_eye-default: #bc6c25;
+    --color-tigers_eye-100: #251507;
+    --color-tigers_eye-200: #4b2b0f;
+    --color-tigers_eye-300: #704016;
+    --color-tigers_eye-400: #96561e;
+    --color-tigers_eye-500: #bc6c25;
+    --color-tigers_eye-600: #d98840;
+    --color-tigers_eye-700: #e3a570;
+    --color-tigers_eye-800: #ecc3a0;
+    --color-tigers_eye-900: #f6e1cf;
+}

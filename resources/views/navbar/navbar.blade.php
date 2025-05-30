@@ -1,17 +1,17 @@
  <nav class="sticky top-0 z-50">
-     <div class="mx-auto  px-2 sm:px-6 lg:px-8 backdrop-blur-lg bg-white/5">
+     <div class="mx-auto  px-2 sm:px-6 lg:px-8 bg-coklattua">
          <div class="relative flex h-16 items-center justify-between">
              <div class="flex flex-1 items-center justify-start sm:items-stretch ">
                  <div class="flex items-center  space-x-3 sm:space-x-6">
                      <!-- Search input, ukuran kecil di mobile -->
-                     <div class="bg-white rounded-lg">
+                     <div class="bg-coklatmuda-100 rounded-lg">
                          <input type="text" placeholder="Cari..."
-                             class="px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm text-gray-900 rounded-lg focus:ring-2 focus:ring-orange-600 focus:outline-none" />
+                             class="px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm text-white rounded-lg focus:ring-2 focus:ring-white focus:outline-none" />
                      </div>
 
                      <!-- Link Beranda, ukuran kecil di mobile -->
                      <a href="/"
-                         class=" text-xs  sm:text-sm font-medium text-white hover:text-orange-500 hover:scale-105 hover:-translate-y-1.5 transition duration-500 ease-in-out  flex flex-col items-center "
+                         class=" text-xs  sm:text-sm font-medium text-white hover:text-coklatmuda-100 hover:scale-105 hover:-translate-y-1.5 transition duration-500 ease-in-out  flex flex-col items-center "
                          aria-current="page">
                          <!-- SVG -->
                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -24,7 +24,7 @@
 
                      <!-- Link Pesanan dengan icon -->
                      <a href="/pesanan"
-                         class=" text-xs  sm:text-sm font-medium text-white  flex flex-col items-center hover:text-orange-500 hover:scale-105 hover:-translate-y-1.5 transition duration-500 ease-in-out"
+                         class=" text-xs  sm:text-sm font-medium text-white  flex flex-col items-center hover:text-coklatmuda-100 hover:scale-105 hover:-translate-y-1.5 transition duration-500 ease-in-out"
                          aria-current="page">
                          <!-- SVG -->
                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -35,6 +35,7 @@
 
                          <span class="text-[5px] sm:text-[10px]">Pesanan</span>
                      </a>
+
                  </div>
              </div>
              <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -54,7 +55,7 @@
                      <div>
                          @auth
                              <button @click="profile = !profile" type="button"
-                                 class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                                 class="relative flex rounded-full border border-coklatmuda-100 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
                                  id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                  <span class="absolute -inset-1.5"></span>
                                  <span class="sr-only">Open user menu</span>
@@ -80,6 +81,14 @@
                              tabindex="-1" id="user-menu-item-0">Your Profile</a>
                          <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
                              id="user-menu-item-1">Settings</a>
+                         @php
+                             $user = auth()->user();
+                         @endphp
+
+                         @if ($user && $user->email === 'tes3@gmail.com')
+                             <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700"
+                                 role="menuitem" tabindex="-1" id="user-menu-item-1">Dashboard</a>
+                         @endif
                          <form action="logout" method="POST">
                              @csrf
                              <button type="submit" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"

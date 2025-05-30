@@ -16,7 +16,9 @@
                 App notifications
             </h3>
             <div class="mt-1 text-sm text-gray-300 ">
-                {{ Session('error') }}
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
             </div>
             <div class="mt-4 ">
                 <div class="flex space-x-3">
