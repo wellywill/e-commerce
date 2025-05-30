@@ -1,14 +1,5 @@
-<!doctype html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class=" bg-gray-800">
-
+@extends('layout.main')
+@section('container')
     <div class="relative">
         <div class="absolute top-96  -z-40 right-10 bg-orange-500 w-72 h-72 rounded-full opacity-80 blur-[120px]"></div>
     </div>
@@ -22,7 +13,7 @@
     </div>
 
 
-    <div class="flex items-center h-screen justify-center">
+    <div class="flex items-center h-screen justify-center ">
         <div class="w-full max-w-sm p-8 backdrop-blur-3xl bg-white/5 rounded-2xl shadow-lg">
             @if (Session()->has('success'))
                 @include('alert.registrasialert')
@@ -62,6 +53,4 @@
             </p>
         </div>
     </div>
-</body>
-
-</html>
+@endsection
