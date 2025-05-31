@@ -56,11 +56,11 @@
         </div>
         <!-- End Slider -->
     </div>
-    <div class="" id="katalog">
 
+
+    <div class="" id="katalog">
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 ">
-            <h2 class="text-2xl font-bold uppercase tracking-widest  inline-flex  rounded-full text-coklattua">
-                <!-- SVG Ikon -->
+            <h2 class="text-2xl font-bold uppercase tracking-widest inline-flex rounded-full text-coklattua">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-8 text-coklattua mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -70,29 +70,119 @@
                 Katalog
             </h2>
 
-            <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                @foreach ($products as $product)
+            <div x-data="{
+                selectedCategory: '{{ $selectedCategoryId ?? 'all' }}',
+                sortBy: '{{ $sortBy ?? 'product_name_asc' }}',
+                dropdownOpen: false, // Tambahkan state untuk dropdown
+                applyFilters: function() {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('category_id', this.selectedCategory);
+                    url.searchParams.set('sort_by', this.sortBy);
+                    window.location.href = url.toString();
+                },
+                setSortAndClose: function(value) {
+                    this.sortBy = value;
+                    this.dropdownOpen = false;
+                    this.applyFilters();
+                }
+            }" class="flex flex-row justify-between items-center mt-8 mb-6 gap-4">
+
+                <div class="flex flex-wrap lg:gap-3 gap-1 justify-center sm:justify-start">
+                    <button @click="selectedCategory = 'all'; applyFilters()"
+                        :class="{ 'bg-coklattua text-white ': selectedCategory === 'all', 'bg-gray-200 text-gray-700  hover:bg-gray-300': selectedCategory !== 'all' }"
+                        class="lg:px-4 lg:py-2 py-1 px-1 rounded-full lg:text-sm text-[7px] font-medium transition-colors duration-200 shadow-md">
+                        Semua Produk
+                    </button>
+                    @foreach ($categories as $category)
+                        <button @click="selectedCategory = '{{ $category->id }}'; applyFilters()"
+                            :class="{
+                                'bg-coklattua text-white lg:text-sm text-[7px] py-1 px-1': selectedCategory ==
+                                    '{{ $category->id }}',
+                                'bg-gray-200 text-gray-700 text-[7px] py-1 px-1 lg:text-sm hover:bg-gray-300': selectedCategory !=
+                                    '{{ $category->id }}'
+                            }"
+                            class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 shadow-md flex items-center">
+                            {{-- Asumsi Anda memiliki kolom 'logo_path' di tabel categories --}}
+                            @if ($category->logo_path)
+                                <img src="{{ asset('storage/' . $category->logo_path) }}"
+                                    alt="{{ $category->category_name }} Logo" class="size-5 mr-2 object-contain">
+                            @endif
+                            {{ $category->category_name }}
+                        </button>
+                    @endforeach
+                </div>
+
+                <div class="relative inline-block text-left" x-data="{ open: false }" @click.away="open = false">
+                    <div>
+                        <button type="button" @click="open = !open"
+                            class="group inline-flex justify-center lg:text-sm text-[7px]  font-medium text-gray-700 hover:text-gray-900"
+                            id="menu-button" aria-expanded="true" aria-haspopup="true">
+                            Sort
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="lg:size-5 size-3 ml-1">
+                                <path fill-rule="evenodd"
+                                    d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                        </button>
+                    </div>
+
+                    <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                        x-transition:enter-start="transform opacity-0 scale-95"
+                        x-transition:enter-end="transform opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-75"
+                        x-transition:leave-start="transform opacity-100 scale-100"
+                        x-transition:leave-end="transform opacity-0 scale-95"
+                        class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none"
+                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div class="py-1" role="none">
+                            <a href="#" @click.prevent="setSortAndClose('product_name_asc')"
+                                :class="{ 'font-medium text-gray-900 bg-gray-100': sortBy === 'product_name_asc', 'text-gray-500 hover:bg-gray-50': sortBy !== 'product_name_asc' }"
+                                class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Nama: A-Z</a>
+                            <a href="#" @click.prevent="setSortAndClose('product_name_desc')"
+                                :class="{ 'font-medium text-gray-900 bg-gray-100': sortBy === 'product_name_desc', 'text-gray-500 hover:bg-gray-50': sortBy !== 'product_name_desc' }"
+                                class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Nama: Z-A</a>
+                            <a href="#" @click.prevent="setSortAndClose('price_asc')"
+                                :class="{ 'font-medium text-gray-900 bg-gray-100': sortBy === 'price_asc', 'text-gray-500 hover:bg-gray-50': sortBy !== 'price_asc' }"
+                                class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Harga: Termurah</a>
+                            <a href="#" @click.prevent="setSortAndClose('price_desc')"
+                                :class="{ 'font-medium text-gray-900 bg-gray-100': sortBy === 'price_desc', 'text-gray-500 hover:bg-gray-50': sortBy !== 'price_desc' }"
+                                class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Harga: Termahal</a>
+                        </div>
+                    </div>
+                </div>
+                {{-- End Sorting Dropdown (New Layout) --}}
+            </div>
+
+            <div class="mt-6 grid grid-cols-3 gap-x-6 gap-y-10  lg:grid-cols-4 xl:gap-x-8">
+                @forelse ($products as $product)
                     <div class="group relative bg-coklatmuda-100 px-2 py-2 rounded-md">
                         {{-- Pastikan path gambar produk benar. Asumsi menggunakan storage link --}}
                         <img src="{{ asset('storage/' . $product->image_product) }}" alt="{{ $product->product_name }}"
                             class="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80">
                         <div class="mt-4 flex justify-between">
                             <div>
-                                <h3 class="text-sm text-white">
+                                <h3 class="lg:text-sm text-white text-[7px] ">
                                     <a href="{{ route('products.show', $product->id) }}">
                                         <span aria-hidden="true" class="absolute inset-0"></span>
                                         {{ $product->product_name }}
                                     </a>
                                 </h3>
 
-                                <p class="mt-1 text-sm text-coklattua">
+                                <p class="mt-1 lg:text-sm text-coklattua text-[7px]">
                                     {{ $product->category->category_name ?? 'Uncategorized' }}</p>
                             </div>
-                            <p class="text-sm font-medium text-black">Rp{{ number_format($product->price, 0, ',', '.') }}
+                            <p class="lg:text-sm text-[7px] font-medium text-black">
+                                Rp{{ number_format($product->price, 0, ',', '.') }}
                             </p>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-span-full text-center py-10 text-gray-600">
+                        <p>Tidak ada produk yang ditemukan untuk kategori atau filter ini.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>

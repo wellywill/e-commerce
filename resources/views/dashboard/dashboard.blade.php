@@ -19,7 +19,7 @@
             </a>
 
             <!-- Lihat Pesanan -->
-            <a href="#"
+            <a href="{{ route('admin.orders.index') }}"
                 class="group bg-coklatmuda-100 rounded-xl shadow-md p-6 hover:bg-coklattua hover:shadow-lg hover:scale-[1.02] transition">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-lg font-semibold text-white group-hover:text-black">Pesanan Masuk</h2>

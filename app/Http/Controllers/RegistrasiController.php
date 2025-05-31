@@ -53,7 +53,6 @@ class RegistrasiController extends Controller
         // Simpan user
         User::create($validated);
 
-        // Redirect ke login atau halaman lain
         return redirect()->route('login')->with('success', 'Registration successful! Please login.');
     }
 

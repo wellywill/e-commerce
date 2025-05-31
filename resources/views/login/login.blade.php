@@ -1,27 +1,21 @@
 @extends('layout.main')
 @section('container')
-    <div class="relative">
-        <div class="absolute top-96  -z-40 right-10 bg-orange-500 w-72 h-72 rounded-full opacity-80 blur-[120px]"></div>
-    </div>
-    <div class="relative">
-        <div
-            class="absolute hidden sm:block top-80  -z-40 left-10 bg-orange-500 w-80 h-80 rounded-full opacity-80 blur-[120px]">
+    @if (Session()->has('authError'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Perhatian!</strong>
+            <span class="block sm:inline">{{ session('authError') }}</span>
         </div>
-    </div>
-    <div class="relative">
-        <div class="absolute top-28  -z-40 left-1/2 bg-orange-500 w-72 h-72  rounded-full opacity-80 blur-[120px]"></div>
-    </div>
-
-
+    @endif
     <div class="flex items-center h-screen justify-center ">
-        <div class="w-full max-w-sm p-8 backdrop-blur-3xl bg-white/5 rounded-2xl shadow-lg">
+        <div class="w-full max-w-sm p-8 backdrop-blur-3xl bg-coklattua rounded-2xl shadow-lg">
             @if (Session()->has('success'))
                 @include('alert.registrasialert')
             @endif
             @if (Session()->has('loginError'))
                 @include('alert.loginalert')
             @endif
-            <h2 class="text-2xl font-bold text-center text-orange-500 drop-shadow-lg  mb-6">Login
+
+            <h2 class="text-2xl font-bold text-center text-coklatmuda-100 drop-shadow-lg  mb-6">Login
             </h2>
 
             <form action="login" method="POST" class="space-y-5 ">

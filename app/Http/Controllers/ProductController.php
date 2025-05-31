@@ -13,8 +13,6 @@ class ProductController extends Controller
     {
         // Ambil semua produk beserta relasi category-nya supaya tidak N+1 problem
         $products = Product::with('category')->get();
-
-        // Ambil kategori untuk dropdown modal tambah produk
         $categories = Category::all();
 
         return view('dashboard.product', compact('products', 'categories'));
@@ -38,27 +36,24 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $data = $request->all(); // Mengambil semua data request
+        $data = $request->all();
 
         // Simpan image_product
         if ($request->hasFile('image_product')) {
             $data['image_product'] = $request->file('image_product')->store('image-product', 'public');
         } else {
-            $data['image_product'] = null; // Pastikan ini diatur jika nullable dan tidak ada file
+            $data['image_product'] = null;
         }
 
-        // Simpan gallery_product. Laravel akan otomatis mengkonversi array ini ke JSON string
-        // karena ada '$casts = ['gallery_product' => 'array']' di model Product.
         $galleryPaths = [];
         if ($request->hasFile('gallery_product')) {
             foreach ($request->file('gallery_product') as $file) {
-                // Pastikan $file adalah instance UploadedFile yang valid sebelum memanggil store()
                 if ($file && $file->isValid()) {
                     $galleryPaths[] = $file->store('gallery-product', 'public');
                 }
             }
         }
-        $data['gallery_product'] = $galleryPaths; // Cukup masukkan array PHP
+        $data['gallery_product'] = $galleryPaths;
 
         Product::create($data);
 
@@ -68,12 +63,9 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        // Data produk sudah otomatis didapatkan oleh Route Model Binding.
-        // Memastikan relasi category terload jika belum.
         $product->load('category');
 
-        // Mengirim data produk ke view 'detail_product'
-        return view('detail.detail', compact('product')); // Asumsi nama view Anda 'detail_product.blade.php'
+        return view('detail.detail', compact('product'));
     }
 
     public function edit(Product $product)
@@ -83,52 +75,67 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        $rules = [
             'product_name' => 'required|string|max:255',
-            'image_product' => 'nullable|image|max:2048',
-            'gallery_product' => 'nullable|array',
-            'gallery_product.*' => 'image|max:2048', // validasi setiap file dalam array
-            'price' => 'required|integer',
+            'price' => 'required|numeric',
             'qty' => 'required|integer',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-        ]);
+        ];
 
-        $data = $request->only(['product_name', 'price', 'qty', 'description', 'category_id']);
-
-        // Handle image utama
+        // Validasi image_product hanya jika ada file baru diunggah
         if ($request->hasFile('image_product')) {
-            // Hapus gambar lama jika ada
+            $rules['image_product'] = 'image|max:2048';
+        }
+
+        // Validasi gallery_product hanya jika ada file baru diunggah
+        if ($request->hasFile('gallery_product')) {
+            $rules['gallery_product'] = 'array';
+            $rules['gallery_product.*'] = 'image|max:2048';
+        }
+
+        $validatedData = $request->validate($rules);
+
+        // --- Penanganan image_product ---
+        if ($request->hasFile('image_product')) {
+            // Hapus gambar lama jika ada dan file-nya eksis
             if ($product->image_product && Storage::disk('public')->exists($product->image_product)) {
                 Storage::disk('public')->delete($product->image_product);
             }
-
             // Simpan gambar baru
-            $data['image_product'] = $request->file('image_product')->store('image-product', 'public');
+            $validatedData['image_product'] = $request->file('image_product')->store('image-product', 'public');
+        } else {
+            // Jika tidak ada gambar baru,nilai lama dipertahankan
+            $validatedData['image_product'] = $product->image_product;
         }
 
-        // Handle gallery jika ada input baru
+        // --- Penanganan gallery_product ---
+        // Jika ada file gallery baru diunggah
         if ($request->hasFile('gallery_product')) {
-            // Hapus file gallery lama
-            if ($product->gallery_product) {
-                $oldGallery = json_decode($product->gallery_product, true);
-                foreach ($oldGallery as $file) {
-                    if (Storage::disk('public')->exists($file)) {
-                        Storage::disk('public')->delete($file);
+            // Hapus semua file gallery lama jika ada
+            if ($product->gallery_product && is_array($product->gallery_product)) {
+                foreach ($product->gallery_product as $imagePath) {
+                    if (Storage::disk('public')->exists($imagePath)) {
+                        Storage::disk('public')->delete($imagePath);
                     }
                 }
             }
 
-            // Simpan file baru
+            // Simpan file gallery baru
             $galleryPaths = [];
             foreach ($request->file('gallery_product') as $file) {
-                $galleryPaths[] = $file->store('gallery-product', 'public');
+                if ($file && $file->isValid()) { // Pastikan file valid
+                    $galleryPaths[] = $file->store('gallery-product', 'public');
+                }
             }
-
-            $data['gallery_product'] = json_encode($galleryPaths);
+            $validatedData['gallery_product'] = $galleryPaths; // Ini akan di-cast otomatis ke JSON string
+        } else {
+            // Jika tidak ada gallery baru, pertahankan yang lama
+            $validatedData['gallery_product'] = $product->gallery_product;
         }
 
-        $product->update($data);
+        // Update produk dengan data yang sudah divalidasi dan diolah
+        $product->update($validatedData);
 
         return redirect()->route('products.index')->with('success', 'Produk berhasil diperbarui.');
     }
@@ -141,11 +148,10 @@ class ProductController extends Controller
             unlink(storage_path('app/public/' . $product->image_product));
         }
 
-        // Hapus gambar gallery (jika disimpan sebagai array JSON, misal)
-        if ($product->gallery_product) {
-            foreach (json_decode($product->gallery_product) as $image) {
-                if (file_exists(storage_path('app/public/' . $image))) {
-                    unlink(storage_path('app/public/' . $image));
+        if ($product->gallery_product && is_array($product->gallery_product)) {
+            foreach ($product->gallery_product as $image) {
+                if (Storage::disk('public')->exists($image)) {
+                    Storage::disk('public')->delete($image);
                 }
             }
         }

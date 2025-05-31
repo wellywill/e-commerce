@@ -1,30 +1,18 @@
 @extends('layout.main')
 @section('container')
-    <!-- Background Effects -->
-    <div class="relative">
-        <div class="absolute top-96 -z-40 right-10 bg-orange-500 w-72 h-72 rounded-full opacity-80 blur-[120px]"></div>
-    </div>
-    <div class="relative">
-        <div
-            class="absolute hidden sm:block top-80 -z-40 left-10 bg-orange-500 w-80 h-80 rounded-full opacity-80 blur-[120px]">
-        </div>
-    </div>
-    <div class="relative">
-        <div class="absolute top-28 -z-40 left-1/2 bg-orange-500 w-72 h-72 rounded-full opacity-80 blur-[120px]"></div>
-    </div>
-
     <!-- Register Form -->
     <div class="flex items-center h-screen justify-center">
-        <div class="w-full max-w-sm p-8 backdrop-blur-3xl bg-white/5 rounded-2xl shadow-lg">
-            <h2 class="text-2xl font-bold text-center text-orange-500 drop-shadow-lg mb-6">Register</h2>
+        <div class="w-full max-w-sm p-8 backdrop-blur-3xl bg-coklatmuda-100 rounded-2xl shadow-lg">
+            <h2 class="text-2xl font-bold text-center text-coklattua drop-shadow-lg mb-6">Register</h2>
 
             <form action="/registrasi" method="POST" enctype="multipart/form-data" class="space-y-5">
                 @csrf
                 <div class="flex flex-col items-center">
                     <label for="image" class="relative cursor-pointer">
                         <div
-                            class="w-28 h-28 rounded-full border-4 border-orange-500 overflow-hidden bg-gray-700 shadow-lg hover:opacity-80 transition">
-                            <img id="preview" src="" alt="Preview" class="object-cover w-full h-full">
+                            class="w-28 h-28 rounded-full border-4 border-coklattua overflow-hidden bg-coklattua shadow-lg hover:opacity-80 transition">
+                            <img id="preview" src="asset/img/default.png" alt="Preview"
+                                class="object-cover w-full h-full">
                         </div>
                         <input type="file" id="image" name="image" accept="image/*"
                             class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(event)">
@@ -74,9 +62,9 @@
                 </button>
             </form>
 
-            <p class="mt-6 text-center text-sm text-gray-400">
+            <p class="mt-6 text-center text-sm text-gray-200">
                 Already have an account?
-                <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Login here</a>
+                <a href="{{ route('login') }}" class="text-blue-700 font-bold hover:underline">Login here</a>
             </p>
         </div>
     </div>
