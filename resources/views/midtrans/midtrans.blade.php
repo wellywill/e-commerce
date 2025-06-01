@@ -30,28 +30,28 @@
             // Snap token diambil dari controller
             Snap.pay('{{ $snapToken }}', {
                 onSuccess: function(result) {
-                    /* You may add your own implementation here */
+
                     alert("Pembayaran Berhasil!");
                     console.log(result);
                     window.location.href =
                         "{{ route('order.status', $order->id) }}"; // Redirect ke halaman sukses
                 },
                 onPending: function(result) {
-                    /* You may add your own implementation here */
+
                     alert("Pembayaran Pending!");
                     console.log(result);
                     window.location.href =
                         "{{ route('order.pending', $order->id) }}"; // Redirect ke halaman pending
                 },
                 onError: function(result) {
-                    /* You may add your own implementation here */
+
                     alert("Pembayaran Gagal!");
                     console.log(result);
                     window.location.href =
                         "{{ route('order.failed', $order->id) }}"; // Redirect ke halaman gagal
                 },
                 onClose: function() {
-                    /* You may add your own implementation here */
+
                     alert('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
                     window.location.href =
                         "{{ route('order.cancel', $order->id) }}"; // Redirect ke halaman pembatalan

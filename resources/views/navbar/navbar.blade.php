@@ -8,7 +8,7 @@
                          <label for="search-input" class="sr-only">Cari Produk</label> {{-- Label untuk aksesibilitas --}}
                          <input type="text" id="search-input" name="search" placeholder="Cari..."
                              value="{{ request('search') }}"
-                             class="py-2.5 sm:py-3 px-4 block w-full border-none rounded-s-lg
+                             class="py-2 sm:py-3 px-2 block w-full border-none rounded-s-lg
                    text-white bg-coklatmuda-100 placeholder-white/70
                    focus:z-10 focus:ring-2 focus:ring-coklattua focus:outline-none
                    text-xs sm:text-sm
@@ -107,8 +107,12 @@
                          class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden"
                          role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                          <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
-                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-coklatmuda-100"
-                             role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                         <button type="button"
+                             class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coklatmuda-100"
+                             aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-offcanvas-profile"
+                             data-hs-overlay="#hs-offcanvas-profile">
+                             Your Profile
+                         </button>
 
                          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-coklatmuda-100"
                              role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>

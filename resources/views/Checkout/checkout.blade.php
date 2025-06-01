@@ -68,7 +68,7 @@
 
             {{-- Form Pengiriman dan Pembayaran --}}
             <div class="mt-10 lg:mt-0">
-                <h2 class="text-lg font-medium text-gray-900 mb-4">Detail Pengiriman & Pembayaran</h2>
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Alamat Pengiriman</h2>
                 <form action="{{ route('checkout.process') }}" method="POST" class="space-y-6">
                     @csrf
 
@@ -77,8 +77,7 @@
                             Pengiriman</label>
                         <div class="mt-1">
                             <textarea id="shipping_address" name="shipping_address" rows="3" required
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">{{ old('shipping_address', $user->address ?? '') }}</textarea>
-                            {{-- Asumsi user memiliki kolom 'address' --}}
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
                         </div>
                         @error('shipping_address')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

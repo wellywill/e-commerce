@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin; // Penting: Pastikan namespace ini benar!
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller; // Jangan lupa import Controller base
-use App\Models\Order; // Import model Order Anda
+use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,7 +33,7 @@ class OrderController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,processing,shipped,completed,cancelled',
+            'status' => 'required|string|in:processing,shipped,completed,cancelled',
         ]);
 
         $order->status = $request->input('status');

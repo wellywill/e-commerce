@@ -80,7 +80,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('admin.orders.show', $order->id) }}"
-                                            class="text-indigo-600 hover:text-indigo-900">Lihat</a>
+                                            class="text-indigo-600 hover:text-indigo-900">Lihat & Edit</a>
                                     </td>
                                 </tr>
                             @empty

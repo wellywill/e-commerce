@@ -75,11 +75,10 @@
                     </p>
 
                     <div class="mt-6">
-                        <h3 class="sr-only">Stock Quantity</h3> {{-- Ubah dari Reviews jadi Stock Quantity --}}
+                        <h3 class="sr-only">Stock Quantity</h3>
                         <div class="flex items-center">
                             <p class="text-xl text-gray-900 font-bold">Stok: {{ $product->qty }}</p> {{-- Tampilkan jumlah stok --}}
-                            {{-- Jika Anda ingin menambahkan teks "Available" atau "Tersedia" --}}
-                            {{-- <p class="ml-2 text-md text-gray-600">Tersedia</p> --}}
+
                         </div>
                     </div>
 
@@ -99,17 +98,17 @@
                         </div>
                     @endif
 
-                    {{-- Form Add to Bag - Pastikan action dan method sudah benar --}}
+
                     <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-6">
-                        @csrf {{-- Jangan lupakan CSRF token! --}}
+                        @csrf
 
                         {{-- Pilihan Warna --}}
                         <div class="mt-10">
                             <h3 class="text-sm font-medium text-gray-900">Color</h3>
                             <fieldset aria-label="Choose a color" class="mt-4">
-                                {{-- Menggunakan flex gap-x-3 untuk jarak antar pilihan warna --}}
+
                                 <div class="flex items-center gap-x-3">
-                                    {{-- Pilihan Warna: White --}}
+
                                     <div class="flex">
                                         <input type="radio" name="color" value="White" id="color-white"
                                             class="sr-only peer" checked>
@@ -119,8 +118,7 @@
                            peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-gray-400
                            focus:outline-hidden"
                                             aria-label="White Color">
-                                            {{-- span ini sebelumnya adalah visual color swatch, sekarang label itu sendiri --}}
-                                            {{-- Preline's default checked style for radio is a blue dot, adjust as needed if you want that --}}
+
                                         </label>
                                     </div>
 

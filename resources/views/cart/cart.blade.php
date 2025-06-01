@@ -31,7 +31,6 @@
                 <ul role="list" class="-my-6 divide-y divide-gray-200">
                     @php $total = 0; @endphp
                     @foreach ($cart as $cartItemId => $details)
-                        {{-- $cartItemId adalah kunci unik (product_id-color) --}}
                         @php $total += $details['price'] * $details['quantity']; @endphp
                         <li class="flex py-6">
                             <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">

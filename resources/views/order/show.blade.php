@@ -120,30 +120,28 @@
         <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
             data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
         <script type="text/javascript">
-            // Ini akan memicu pop-up pembayaran secara otomatis saat halaman dimuat
-            // jika ada snapToken dan order masih pending
             window.onload = function() {
                 snap.pay('{{ $snapToken }}', {
                     onSuccess: function(result) {
-                        /* You may add your own implementation here */
+
                         alert("Pembayaran berhasil!");
                         window.location.href = "{{ route('midtrans.finish') }}?order_id={{ $order->id }}";
                     },
                     onPending: function(result) {
-                        /* You may add your own implementation here */
+
                         alert("Pembayaran tertunda!");
                         window.location.href =
                             "{{ route('midtrans.unfinish') }}?order_id={{ $order->id }}";
                     },
                     onError: function(result) {
-                        /* You may add your own implementation here */
+
                         alert("Pembayaran gagal!");
                         window.location.href = "{{ route('midtrans.error') }}?order_id={{ $order->id }}";
                     },
                     onClose: function() {
-                        /* You may add your own implementation here */
+
                         alert('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
-                        // Pengguna menutup pop-up, bisa redirect atau tampilkan pesan
+
                     }
                 });
             };

@@ -135,7 +135,7 @@
                                     '{{ $category->id }}'
                             }"
                             class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 shadow-md flex items-center">
-                            {{-- Asumsi Anda memiliki kolom 'logo_path' di tabel categories --}}
+
                             @if ($category->logo_path)
                                 <img src="{{ asset('storage/' . $category->logo_path) }}"
                                     alt="{{ $category->category_name }} Logo" class="size-5 mr-2 object-contain">
@@ -227,39 +227,39 @@
                 searchQuery: '{{ request('search', '') }}',
                 selectedCategory: '{{ $selectedCategoryId ?? 'all' }}',
                 sortBy: '{{ $sortBy ?? 'product_name_asc' }}',
-                dropdownOpen: false, // State untuk dropdown sorting
+                dropdownOpen: false,
 
-                // Fungsi utama yang menerapkan semua filter dan menggulir halaman
+
                 applyFilters: function() {
-                    // Membuat objek URL baru dari URL dasar halaman saat ini
+
                     const url = new URL(window.location.origin + window.location.pathname);
 
-                    // Tambahkan parameter pencarian jika ada dan tidak kosong
+                    g
                     if (this.searchQuery && this.searchQuery.trim() !== '') {
                         url.searchParams.set('search', this.searchQuery.trim());
                     } else {
-                        url.searchParams.delete('search'); // Hapus parameter search jika kosong
+                        url.searchParams.delete('search');
                     }
 
-                    // Tambahkan parameter kategori yang dipilih
+
                     url.searchParams.set('category_id', this.selectedCategory);
 
-                    // Tambahkan parameter sorting yang dipilih
+
                     url.searchParams.set('sort_by', this.sortBy);
 
-                    // Tambahkan hash untuk menggulir otomatis ke bagian katalog
-                    url.hash =
-                        'katalog'; // Pastikan 'katalog-section' adalah ID dari div katalog Anda
 
-                    // Lakukan redirect ke URL yang baru
+                    url.hash =
+                        'katalog';
+
+
                     window.location.href = url.toString();
                 },
 
-                // Fungsi ini dipanggil dari dropdown sorting saat pilihan diklik
+
                 setSortAndClose: function(value) {
-                    this.sortBy = value; // Set nilai sortBy yang baru
-                    this.dropdownOpen = false; // Tutup dropdown
-                    this.applyFilters(); // Panggil applyFilters untuk menerapkan sort dan menggulir
+                    this.sortBy = value;
+                    this.dropdownOpen = false;
+                    this.applyFilters();
                 }
             }));
         });

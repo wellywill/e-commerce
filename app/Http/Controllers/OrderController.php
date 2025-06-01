@@ -134,10 +134,8 @@ class OrderController extends Controller
     {
         Log::info('Midtrans callback received:', $request->all()); // Log seluruh payload
 
-        // Konfigurasi Midtrans Server Key
-        // Pastikan Anda sudah mengaturnya di config/midtrans.php atau config/services.php
-        Config::$serverKey = config('midtrans.serverKey'); // Atau config('services.midtrans.server_key')
-        Config::$isProduction = config('midtrans.isProduction'); // Sesuaikan dengan env Anda
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
 
         try {
             $notif = new Notification();
@@ -154,7 +152,7 @@ class OrderController extends Controller
         $transactionId = $notif->transaction_id; // Ambil transaction_id dari notif
         $paymentTime = $notif->transaction_time; // Waktu transaksi dari Midtrans
 
-        // Midtrans kadang mengirim order_id dengan suffix, pisahkan untuk mendapatkan order ID asli Anda
+
         $originalOrderId = explode('-', $orderIdMidtrans)[0];
         $order = Order::find($originalOrderId);
 
@@ -165,13 +163,13 @@ class OrderController extends Controller
 
         Log::info("Processing Midtrans callback for Order ID #{$order->id} (Midtrans transaction ID: {$orderIdMidtrans}) - Status: {$transactionStatus}, Fraud: {$fraudStatus}");
 
-        $newOrderStatus = $order->status; // Default: status tidak berubah
-        $newPaymentStatus = null; // Default: status pembayaran belum ditentukan
+        $newOrderStatus = $order->status;
+        $newPaymentStatus = null;
 
         // Logic berdasarkan status transaksi Midtrans
         if ($transactionStatus == 'capture' || $transactionStatus == 'settlement') {
             if ($fraudStatus == 'challenge') {
-                $newOrderStatus = 'pending_verification'; // Pesanan memerlukan verifikasi karena terindikasi fraud
+                $newOrderStatus = 'pending_verification';
                 $newPaymentStatus = 'challenge';
                 Log::info("Order #{$order->id} status set to 'pending_verification' (fraud challenge).");
             } else if ($fraudStatus == 'accept') {
@@ -184,7 +182,7 @@ class OrderController extends Controller
             }
         } elseif ($transactionStatus == 'pending') {
             // Pembeli belum membayar atau menunggu konfirmasi pembayaran
-            $newOrderStatus = 'pending_payment'; // Misal, order tetap pending
+            $newOrderStatus = 'pending_payment';
             $newPaymentStatus = 'pending';
             Log::info("Order #{$order->id} status set to 'pending_payment'.");
             Log::info("Payment for Order #{$order->id} status set to 'pending'.");
@@ -206,11 +204,11 @@ class OrderController extends Controller
 
         // Buat atau perbarui catatan pembayaran
         // Gunakan updateOrCreate untuk menghindari duplikasi jika callback terkirim berkali-kali
-        if ($newPaymentStatus) { // Pastikan ada status pembayaran yang akan diatur
+        if ($newPaymentStatus) {
             try {
                 Log::info("Attempting to create/update Payment record for Order #{$order->id}...");
                 Payment::updateOrCreate(
-                    ['order_id' => $order->id], // Cari berdasarkan order_id
+                    ['order_id' => $order->id],
                     [
                         'transaction_id' => $transactionId, // Dari notifikasi Midtrans
                         'payment_method' => $paymentType,
@@ -233,36 +231,50 @@ class OrderController extends Controller
         }
 
 
-        return response('OK', 200); // Penting: Selalu balas dengan HTTP 200 OK untuk Midtrans
+        return response('OK', 200);
     }
-    // Redirect URLs (hanya untuk tampilan browser, status update harus via callback)
+
     public function midtransFinish(Request $request)
     {
         $orderId = $request->input('order_id');
         $order = Order::find($orderId);
-        if ($order) {
-            return redirect()->route('orders.show', $order->id)->with('success', 'Pembayaran berhasil dikonfirmasi. Mohon tunggu verifikasi.');
+
+        if (!$order) {
+
+            return redirect()->route('home')->with('error', 'Pesanan tidak ditemukan.');
         }
-        return redirect()->route('orders.index')->with('success', 'Pembayaran berhasil. Silakan cek status pesanan Anda.');
+
+        $payment_frontend_status = 'success';
+
+        return view('midtrans.status', compact('payment_frontend_status', 'order'));
     }
 
     public function midtransUnfinish(Request $request)
     {
         $orderId = $request->input('order_id');
         $order = Order::find($orderId);
-        if ($order) {
-            return redirect()->route('orders.show', $order->id)->with('error', 'Pembayaran belum selesai. Silakan coba lagi.');
+
+        if (!$order) {
+            return redirect()->route('home')->with('error', 'Pesanan tidak ditemukan.');
         }
-        return redirect()->route('orders.index')->with('error', 'Pembayaran belum selesai.');
+
+        $payment_frontend_status = 'pending';
+
+
+        return view('midtrans.status', compact('payment_frontend_status', 'order'));
     }
 
     public function midtransError(Request $request)
     {
         $orderId = $request->input('order_id');
         $order = Order::find($orderId);
-        if ($order) {
-            return redirect()->route('orders.show', $order->id)->with('error', 'Pembayaran gagal. Silakan coba lagi.');
+
+        if (!$order) {
+            return redirect()->route('home')->with('error', 'Pesanan tidak ditemukan.');
         }
-        return redirect()->route('orders.index')->with('error', 'Pembayaran gagal.');
+
+        $payment_frontend_status = 'failed';
+
+        return view('midtrans.status', compact('payment_frontend_status', 'order'));
     }
 }

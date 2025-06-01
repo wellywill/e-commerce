@@ -132,8 +132,7 @@
             </div>
         </div>
 
-        {{-- Ini adalah bagian Detail Produk jika Anda ingin menampilkan detail produk dari ORDER terkait --}}
-        {{-- Hati-hati: Pastikan Anda memang ingin menampilkan ini di detail pembayaran, karena umumnya ini ada di detail pesanan --}}
+
         @if ($payment->order->detailOrders->isNotEmpty())
             <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
                 <div class="px-4 py-5 sm:px-6">

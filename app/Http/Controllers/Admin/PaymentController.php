@@ -12,28 +12,25 @@ class PaymentController extends Controller
     {
         $payments = Payment::with(['order.user'])
             ->orderBy('payment_date', 'desc')
-            ->paginate(10); // Menampilkan 10 pembayaran per halaman
+            ->paginate(10);
 
         return view('dashboard.payment', compact('payments'));
     }
     public function show(Payment $payment)
     {
-        // Eager load relasi yang diperlukan untuk detail pembayaran dan ordernya,
-        // termasuk user yang membuat order dan produk dalam detail order.
+
         $payment->load(['order.user', 'order.detailOrders.product']);
 
-        // Definisikan daftar status pembayaran yang mungkin.
-        // Pastikan ini sesuai dengan nilai yang Anda gunakan di database.
-        $statuses = ['pending', 'completed', 'failed', 'refunded'];
 
-        // Kirim objek $payment dan array $statuses ke tampilan 'admin.payments.show'.
+        $statuses = ['verify', 'completed', 'failed', 'refunded'];
+
         return view('dashboard.detailpayment', compact('payment', 'statuses'));
     }
     public function updateStatus(Request $request, Payment $payment)
     {
         $request->validate([
-            // Validasi untuk status pembayaran baru saja
-            'status' => 'required|string|in:pending,completed,failed,refunded',
+
+            'status' => 'required|string|in:verify,completed,failed,refunded',
         ]);
 
         // Perbarui status pembayaran

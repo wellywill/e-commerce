@@ -23,7 +23,9 @@
 </head>
 
 <body class="bg-cornsilk-800">
+
     @include('navbar.navbar')
+
     @yield('container')
     <script>
         const text = "SerbaDigital.ID";
@@ -59,6 +61,7 @@
 
         document.addEventListener("DOMContentLoaded", typeLoop);
     </script>
+
 </body>
 
 </html>
