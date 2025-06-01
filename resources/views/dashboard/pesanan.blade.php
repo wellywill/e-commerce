@@ -2,7 +2,14 @@
 
 @section('container')
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">Manajemen Pesanan</h1>
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Manajemen Pesanan</h1>
+            {{-- Tombol Kembali ke Dashboard --}}
+            <a href="{{ route('dashboard') }}"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-coklatmuda-100 hover:bg-coklattua  focus:outline-none focus:ring-2 focus:ring-offset-2 ">
+                Kembali ke Dashboard
+            </a>
+        </div>
 
         @if (session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">

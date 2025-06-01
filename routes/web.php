@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -35,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index')->middleware('can:access-admin-dashboard');
     Route::get('/admin/orders/{order}', [AdminOrderController::class, 'show'])->name('admin.orders.show')->middleware('can:access-admin-dashboard');
     Route::put('/admin/orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus')->middleware('can:access-admin-dashboard');
+    Route::get('/admin/payments', [AdminPaymentController::class, 'index'])->name('admin.payments.index')->middleware('can:access-admin-dashboard');
+    Route::get('/admin/payments/{payment}', [AdminPaymentController::class, 'show'])->name('admin.payments.show')->middleware('can:access-admin-dashboard');
+    Route::put('/admin/payments/{payment}/update-status', [AdminPaymentController::class, 'updateStatus'])->name('admin.payments.updateStatus')->middleware('can:access-admin-dashboard');
 });
 
 
@@ -64,4 +68,13 @@ Route::middleware(['auth'])->group(function () {
     // --- Rute untuk OrderController ---
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    // Rute untuk inisiasi pembayaran Midtrans (menggunakan GET untuk tombol, bisa juga POST)
+    Route::get('/orders/{order}/pay', [OrderController::class, 'payWithMidtrans'])->name('orders.pay');
+
+    // Rute untuk Midtrans Callback (webhook) - ini harus POST
+
+    Route::get('/midtrans-finish', [OrderController::class, 'midtransFinish'])->name('midtrans.finish');
+    Route::get('/midtrans-unfinish', [OrderController::class, 'midtransUnfinish'])->name('midtrans.unfinish');
+    Route::get('/midtrans-error', [OrderController::class, 'midtransError'])->name('midtrans.error');
 });
+Route::post('/midtrans-callback', [OrderController::class, 'midtransCallback']);

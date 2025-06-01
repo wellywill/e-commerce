@@ -109,7 +109,7 @@ class CartController extends Controller
         // Validasi data yang masuk dari form checkout
         $request->validate([
             'shipping_address' => 'required|string|max:255',
-            'payment_method' => 'required|string|in:Bank Transfer,Credit Card,E-wallet',
+
 
         ]);
 
@@ -145,13 +145,7 @@ class CartController extends Controller
             ]);
         }
 
-        // 3. Buat entri di tabel 'payments'
-        Payment::create([
-            'order_id' => $order->id,
-            'payment_date' => now(),
-            'payment_method' => $request->input('payment_method'),
-            'payment_status' => 'pending', // Status awal pembayaran
-        ]);
+
 
         // 4. Hapus keranjang dari session setelah checkout berhasil
         Session::forget('cart');

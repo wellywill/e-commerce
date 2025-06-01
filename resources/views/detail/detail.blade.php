@@ -7,19 +7,19 @@
                     {{-- Link ke Beranda --}}
                     <li>
                         <div class="flex items-center">
-                            <a href="{{ route('home') }}" class="mr-2 text-sm font-medium text-gray-900">Home</a>
+                            <a href="{{ route('home') }}#katalog" class="mr-2 text-sm font-medium text-gray-900">Home</a>
                             <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"
                                 class="h-5 w-4 text-gray-300">
                                 <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
                             </svg>
                         </div>
                     </li>
-                    {{-- Link ke Kategori (jika ada) --}}
                     @if ($product->category)
                         <li>
                             <div class="flex items-center">
-                                <a href="#"
-                                    class="mr-2 text-sm font-medium text-gray-900">{{ $product->category->category_name }}</a>
+                                <span class="mr-2 text-sm font-medium text-gray-500">
+                                    {{ $product->category->category_name }}
+                                </span>
                                 <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor"
                                     aria-hidden="true" class="h-5 w-4 text-gray-300">
                                     <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
@@ -27,12 +27,11 @@
                             </div>
                         </li>
                     @endif
-                    {{-- Nama Produk (Current Page) --}}
+
                     <li class="text-sm">
-                        <a href="{{ route('products.show', $product->id) }}" aria-current="page"
-                            class="font-medium text-gray-500 hover:text-gray-600">
+                        <span aria-current="page" class="font-medium text-gray-500">
                             {{ $product->product_name }}
-                        </a>
+                        </span>
                     </li>
                 </ol>
             </nav>
@@ -171,29 +170,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-10">
-                        <h3 class="text-sm font-medium text-gray-900">Highlights</h3>
-                        <div class="mt-4">
-                            <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
-                                <li class="text-gray-400"><span class="text-gray-600">Hand cut and sewn locally</span>
-                                </li>
-                                <li class="text-gray-400"><span class="text-gray-600">Dyed with our proprietary
-                                        colors</span></li>
-                                <li class="text-gray-400"><span class="text-gray-600">Pre-washed &amp; pre-shrunk</span>
-                                </li>
-                                <li class="text-gray-400"><span class="text-gray-600">Ultra-soft 100% cotton</span></li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="mt-10">
-                        <h2 class="text-sm font-medium text-gray-900">Details</h2>
-                        <div class="mt-4 space-y-6">
-                            <p class="text-sm text-gray-600">The 6-Pack includes two black, two white, and two heather gray
-                                Basic Tees. Sign up for our subscription service and be the first to get new, exciting
-                                colors, like our upcoming &quot;Charcoal Gray&quot; limited release.</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

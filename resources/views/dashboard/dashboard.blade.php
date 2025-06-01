@@ -32,11 +32,11 @@
             </a>
 
             <!-- Pembayaran -->
-            <a href="#"
-                class="group bg-coklatmuda-100 rounded-xl shadow-md p-6 hover:shadow-lg hover:scale-[1.02]  transition">
+            <a href="{{ route('admin.payments.index') }}"
+                class="group bg-coklatmuda-100 rounded-xl shadow-md p-6 hover:bg-coklattua hover:shadow-lg hover:scale-[1.02]  transition">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-semibold text-white group-hover:text-orange-500">Pembayaran</h2>
-                    <svg class="w-6 h-6 text-orange-500 group-hover:scale-110 transition" fill="none"
+                    <h2 class="text-lg font-semibold text-white group-hover:text-black">Pembayaran</h2>
+                    <svg class="w-6 h-6 text-white group-hover:scale-110 group-hover:text-black transition" fill="none"
                         stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M17 9V7a4 4 0 00-8 0v2H5v10h14V9h-2zM7 13h10"></path>

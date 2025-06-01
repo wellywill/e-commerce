@@ -1,9 +1,9 @@
 @extends('layout.main')
 @section('container')
-    <div class="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
+    <div class="min-h-screen  py-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl bg-white mx-auto rounded-lg shadow p-6">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">Kelola Kategori</h1>
+                <h1 class="text-2xl font-bold text-coklattua drop-shadow-md">Kelola Kategori</h1>
                 <div class="text-center my-8">
                     <div class="flex gap-2 items-center">
                         <!-- Tombol Kembali ke Dashboard -->
@@ -18,7 +18,7 @@
 
                         <!-- Tombol Tambah Kategori -->
                         <button type="button"
-                            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-coklatmuda-100 text-white hover:bg-coklattua focus:outline-none shadow-md disabled:opacity-50 disabled:pointer-events-none"
                             aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-modal-kategori"
                             data-hs-overlay="#hs-modal-kategori">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"

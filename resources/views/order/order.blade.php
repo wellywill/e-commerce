@@ -11,6 +11,13 @@
             </div>
         @endif
 
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                <strong class="font-bold">Gagal!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
         @if ($orders->isEmpty())
             <div class="text-center text-gray-500 py-10">
                 <p class="text-lg mb-4">Anda belum memiliki pesanan.</p>
@@ -58,7 +65,14 @@
                                 </div>
                             </dl>
                         </div>
-                        <div class="px-4 py-4 sm:px-6 bg-gray-50 text-right">
+                        <div class="px-4 py-4 sm:px-6 bg-gray-50 text-right flex justify-end items-center space-x-3">
+                            {{-- Tombol "Bayar Sekarang" hanya jika status pending --}}
+                            @if ($order->status == 'pending')
+                                <a href="{{ route('orders.pay', $order->id) }}"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    Bayar Sekarang
+                                </a>
+                            @endif
                             <a href="{{ route('orders.show', $order->id) }}"
                                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Lihat Detail
@@ -69,4 +83,5 @@
             </div>
         @endif
     </div>
+
 @endsection

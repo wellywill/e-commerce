@@ -160,9 +160,15 @@
             </div>
         </div>
 
-        <div class="mt-8 text-center">
-            <a href="{{ route('admin.orders.index') }}" class="font-medium text-indigo-600 hover:text-indigo-500">&larr;
-                Kembali ke Daftar Pesanan</a>
+        <div class="mt-8 text-center flex justify-center space-x-20">
+            <a href="{{ route('admin.orders.index') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                &larr; Kembali ke Daftar Pesanan
+            </a>
+            {{-- Tautan baru untuk kembali ke Daftar Pembayaran dengan panah kanan --}}
+            <a href="{{ route('admin.payments.index') }}" class="font-medium text-blue-600 hover:text-blue-500">
+                Kembali ke Daftar Pembayaran &rarr; {{-- Panah kanan di sebelah kanan teks --}}
+            </a>
         </div>
+
     </div>
 @endsection

@@ -3,11 +3,30 @@
          <div class="relative flex h-16 items-center justify-between">
              <div class="flex flex-1 items-center justify-start sm:items-stretch ">
                  <div class="flex items-center  space-x-3 sm:space-x-6">
-                     <!-- Search input, ukuran kecil di mobile -->
-                     <div class="bg-coklatmuda-100 rounded-lg">
-                         <input type="text" placeholder="Cari..."
-                             class="px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm text-white rounded-lg focus:ring-2 focus:ring-white focus:outline-none" />
-                     </div>
+                     <!-- Search input -->
+                     <form action="{{ url('/#katalog') }}" method="GET" class="flex items-center rounded-lg">
+                         <label for="search-input" class="sr-only">Cari Produk</label> {{-- Label untuk aksesibilitas --}}
+                         <input type="text" id="search-input" name="search" placeholder="Cari..."
+                             value="{{ request('search') }}"
+                             class="py-2.5 sm:py-3 px-4 block w-full border-none rounded-s-lg
+                   text-white bg-coklatmuda-100 placeholder-white/70
+                   focus:z-10 focus:ring-2 focus:ring-coklattua focus:outline-none
+                   text-xs sm:text-sm
+                   disabled:opacity-50 disabled:pointer-events-none" />
+
+                         <button type="submit"
+                             class="size-11.5 shrink-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-e-md border border-transparent
+                   bg-coklattua text-white hover:bg-coklattua/80 focus:outline-hidden focus:bg-coklattua/90
+                   disabled:opacity-50 disabled:pointer-events-none">
+                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <circle cx="11" cy="11" r="8"></circle>
+                                 <path d="m21 21-4.3-4.3"></path>
+                             </svg>
+                             <span class="sr-only">Cari</span>
+                         </button>
+                     </form>
 
                      <!-- Link Beranda, ukuran kecil di mobile -->
                      <a href="/"
@@ -42,24 +61,25 @@
              </div>
              <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                  {{-- Tombol Keranjang --}}
-                 <a href="{{ route('cart.index') }}"
-                     class="p-1 text-white hover:text-coklatmuda-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 rounded-full group">
-                     <span class="sr-only">View cart</span>
-                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                         <path fill-rule="evenodd"
-                             d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z"
-                             clip-rule="evenodd" />
-                     </svg>
+                 @can('is-customer-ui')
+                     <a href="{{ route('cart.index') }}"
+                         class="p-1 text-white hover:text-coklatmuda-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 rounded-full group">
+                         <span class="sr-only">View cart</span>
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                             <path fill-rule="evenodd"
+                                 d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z"
+                                 clip-rule="evenodd" />
+                         </svg>
 
-                     {{-- Opsional: Menampilkan jumlah item di keranjang --}}
-                     @if (session('cart') && count(session('cart')) > 0)
-                         <span
-                             class="absolute top-5 right-20 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2 group-hover:bg-red-700">
-                             {{ count(session('cart')) }}
-                         </span>
-                     @endif
-                 </a>
-
+                         {{-- Opsional: Menampilkan jumlah item di keranjang --}}
+                         @if (session('cart') && count(session('cart')) > 0)
+                             <span
+                                 class="absolute top-5 right-20 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2 group-hover:bg-red-700">
+                                 {{ count(session('cart')) }}
+                             </span>
+                         @endif
+                     </a>
+                 @endcan
                  <!-- Profile dropdown -->
                  <div x-data="{ profile: false }" class="relative ml-3">
                      <div>
@@ -87,27 +107,30 @@
                          class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden"
                          role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                          <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
-                         <a href="#" class="block dur px-4 py-2 text-sm text-gray-700" role="menuitem"
-                             tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                         <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                             id="user-menu-item-1">Settings</a>
+                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-coklatmuda-100"
+                             role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+
+                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-coklatmuda-100"
+                             role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+
                          @auth
                              @can('access-admin-dashboard')
                                  {{-- Gunakan nama Gate yang baru dibuat --}}
-                                 <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700"
-                                     role="menuitem" tabindex="-1" id="user-menu-item-1">Dashboard</a>
+                                 <a href="{{ route('dashboard') }}"
+                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-coklatmuda-100" role="menuitem"
+                                     tabindex="-1" id="user-menu-item-1">Dashboard</a>
                              @endcan
                          @endauth
-                         <form action="logout" method="POST">
+
+                         <form action="{{ route('logout') }}" method="POST">
                              @csrf
-                             <button type="submit" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
-                                 tabindex="-1" id="user-menu-item-2">Log Out</button>
+                             <button type="submit"
+                                 class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coklatmuda-100 cursor-pointer"
+                                 role="menuitem" tabindex="-1" id="user-menu-item-2">Log Out</button>
                          </form>
                      </div>
                  </div>
              </div>
          </div>
      </div>
-
-
  </nav>

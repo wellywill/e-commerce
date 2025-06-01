@@ -56,10 +56,43 @@
         </div>
         <!-- End Slider -->
     </div>
+    {{-- Bagian Best Seller (Tambahan Baru) --}}
+    <div class="mx-auto max-w-2xl px-4 py-8  sm:px-6  sm:py-10 lg:max-w-7xl lg:px-8">
+        <h2 class="text-2xl font-bold uppercase tracking-widest inline-flex rounded-full text-coklattua mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-8 mr-1 text-coklattua">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+            </svg>
 
+            Best Seller
+        </h2>
+
+        <div class="grid grid-cols-4 gap-x-3 sm:gap-x-6 gap-y-10 sm:grid-cols-4 lg:grid-cols-6 xl:gap-x-8">
+            @forelse ($bestSellers as $product)
+                <a href="{{ route('products.show', $product->id) }}" class="group block text-center"> {{-- Tambah text-center --}}
+                    <div
+                        class="w-10 h-10 sm:w-32 sm:h-32 mx-auto overflow-hidden rounded-full bg-gray-100 flex items-center justify-center group-hover:opacity-75 shadow-lg">
+                        {{-- Ukuran kecil dan rounded-full --}}
+                        <img src="{{ asset('storage/' . $product->image_product) }}" alt="{{ $product->product_name }}"
+                            class="h-full w-full object-contain object-center p-2"> {{-- object-contain untuk menghindari cropping --}}
+                    </div>
+                    <h3 class="mt-4 text-[10px] sm:text-sm text-gray-700 font-medium truncate">{{ $product->product_name }}
+                    </h3>
+                    {{-- Tambah truncate
+                    <p class="mt-1 text-xs font-semibold text-gray-900">Rp{{ number_format($product->price, 0, ',', '.') }}
+                    </p> --}}
+                </a>
+            @empty
+                <div class="col-span-full text-center py-10 text-gray-600">
+                    <p>Belum ada produk best seller.</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
 
     <div class="" id="katalog">
-        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 ">
+        <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8 ">
             <h2 class="text-2xl font-bold uppercase tracking-widest inline-flex rounded-full text-coklattua">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-8 text-coklattua mr-2">
@@ -186,4 +219,49 @@
             </div>
         </div>
     </div>
+    <script>
+        // Inisialisasi Alpine.js data untuk fungsionalitas pencarian, filter, dan sorting
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('searchFunctionality', () => ({
+                // Inisialisasi state dari parameter URL saat ini
+                searchQuery: '{{ request('search', '') }}',
+                selectedCategory: '{{ $selectedCategoryId ?? 'all' }}',
+                sortBy: '{{ $sortBy ?? 'product_name_asc' }}',
+                dropdownOpen: false, // State untuk dropdown sorting
+
+                // Fungsi utama yang menerapkan semua filter dan menggulir halaman
+                applyFilters: function() {
+                    // Membuat objek URL baru dari URL dasar halaman saat ini
+                    const url = new URL(window.location.origin + window.location.pathname);
+
+                    // Tambahkan parameter pencarian jika ada dan tidak kosong
+                    if (this.searchQuery && this.searchQuery.trim() !== '') {
+                        url.searchParams.set('search', this.searchQuery.trim());
+                    } else {
+                        url.searchParams.delete('search'); // Hapus parameter search jika kosong
+                    }
+
+                    // Tambahkan parameter kategori yang dipilih
+                    url.searchParams.set('category_id', this.selectedCategory);
+
+                    // Tambahkan parameter sorting yang dipilih
+                    url.searchParams.set('sort_by', this.sortBy);
+
+                    // Tambahkan hash untuk menggulir otomatis ke bagian katalog
+                    url.hash =
+                        'katalog'; // Pastikan 'katalog-section' adalah ID dari div katalog Anda
+
+                    // Lakukan redirect ke URL yang baru
+                    window.location.href = url.toString();
+                },
+
+                // Fungsi ini dipanggil dari dropdown sorting saat pilihan diklik
+                setSortAndClose: function(value) {
+                    this.sortBy = value; // Set nilai sortBy yang baru
+                    this.dropdownOpen = false; // Tutup dropdown
+                    this.applyFilters(); // Panggil applyFilters untuk menerapkan sort dan menggulir
+                }
+            }));
+        });
+    </script>
 @endsection

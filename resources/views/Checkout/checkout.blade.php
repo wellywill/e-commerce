@@ -85,26 +85,7 @@
                         @enderror
                     </div>
 
-                    <div>
-                        <label for="payment_method" class="block text-sm font-medium text-gray-700">Metode
-                            Pembayaran</label>
-                        <div class="mt-1">
-                            <select id="payment_method" name="payment_method" required
-                                class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                <option value="">Pilih Metode Pembayaran</option>
-                                <option value="Bank Transfer"
-                                    {{ old('payment_method') == 'Bank Transfer' ? 'selected' : '' }}>Bank Transfer</option>
-                                <option value="Credit Card" {{ old('payment_method') == 'Credit Card' ? 'selected' : '' }}>
-                                    Credit Card</option>
-                                <option value="E-wallet" {{ old('payment_method') == 'E-wallet' ? 'selected' : '' }}>
-                                    E-wallet</option>
-                                {{-- Tambahkan pilihan lain jika ada --}}
-                            </select>
-                        </div>
-                        @error('payment_method')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+
 
                     <button type="submit"
                         class="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
