@@ -71,7 +71,6 @@
                 <h2 class="text-lg font-medium text-gray-900 mb-4">Alamat Pengiriman</h2>
                 <form action="{{ route('checkout.process') }}" method="POST" class="space-y-6">
                     @csrf
-
                     <div>
                         <label for="shipping_address" class="block text-sm font-medium text-gray-700">Alamat
                             Pengiriman</label>
@@ -83,8 +82,6 @@
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-
-
 
                     <button type="submit"
                         class="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
